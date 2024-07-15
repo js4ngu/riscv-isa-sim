@@ -1576,6 +1576,7 @@ void disassembler_t::add_instructions(const isa_parser_t* isa)
     //OPFVV/OPFVF
     //0b00_0000
     DISASM_OPIV_VXI_INSN(vadd,         1, v);
+    DISASM_OPIV_VXI_INSN(vmod,         1, v);
     DISASM_OPIV_VX__INSN(vsub,         1);
     DISASM_OPIV__XI_INSN(vrsub,        1);
     DISASM_OPIV_VX__INSN(vminu,        0);
