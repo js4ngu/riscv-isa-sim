@@ -1,6 +1,7 @@
 softfloat_subproject_deps =
 
 softfloat_c_srcs = \
+	positional_encoding.c \
 	f128_add.c \
 	f128_classify.c \
 	f128_div.c \
@@ -227,7 +228,7 @@ softfloat_c_srcs = \
 	ui64_to_f16.c \
 	ui64_to_f32.c \
 	ui64_to_f64.c \
-
+	
 softfloat_install_shared_lib = yes
 
 softfloat_test_srcs =

@@ -1736,6 +1736,12 @@ void disassembler_t::add_instructions(const isa_parser_t* isa)
       DEFINE_VECTOR_VV(name##_vv); \
       DEFINE_VECTOR_VF(name##_vf)
 
+    #define DISASM_OPIV_V__INSN(name) \
+      DEFINE_VECTOR_VV(name##_vv)
+
+    #define DISASM_OPIV__F_INSN(name) \
+      DEFINE_VECTOR_VF(name##_vf)
+
     #define DISASM_OPIV_WF_INSN(name) \
       DEFINE_VECTOR_VV(name##_wv); \
       DEFINE_VECTOR_VF(name##_wf)
@@ -1757,6 +1763,8 @@ void disassembler_t::add_instructions(const isa_parser_t* isa)
     //OPFVV/OPFVF
     //0b00_0000
     DISASM_OPIV_VF_INSN(vfadd);
+    DISASM_OPIV_V__INSN(vfsinpe);
+    DISASM_OPIV__F_INSN(vfrope);
     DISASM_OPIV_S__INSN(vfredusum);
     DISASM_OPIV_VF_INSN(vfsub);
     DISASM_OPIV_S__INSN(vfredosum);
@@ -1826,6 +1834,7 @@ void disassembler_t::add_instructions(const isa_parser_t* isa)
     DISASM_OPIV_VF_INSN(vfwnmsac);
 
     #undef DISASM_OPIV_VF_INSN
+    #undef DISASM_OPIV_V__INSN
     #undef DISASM_OPIV__F_INSN
     #undef DISASM_OPIV_S__INSN
     #undef DISASM_OPIV_W__INSN

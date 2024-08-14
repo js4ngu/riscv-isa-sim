@@ -481,6 +481,8 @@ riscv_insn_ext_v_alu_int = \
 	vmod_vi \
 	vmod_vv \
 	vmod_vx \
+	vfsinpe_vv \
+	vfrope_vf \
 	vaadd_vv \
 	vaaddu_vv \
 	vaadd_vx \

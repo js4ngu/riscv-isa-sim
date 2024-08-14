@@ -182,6 +182,8 @@ bool f16_isSignalingNaN( float16_t );
 uint_fast16_t f16_classify( float16_t );
 float16_t f16_rsqrte7( float16_t );
 float16_t f16_recip7( float16_t );
+float16_t f16_sinpe( float16_t Token, float16_t pos, float16_t d_model, uint64_t i );
+float16_t f16_rope( float16_t token, float16_t m, uint64_t i, uint64_t n_dim, int is_even);
 
 /*----------------------------------------------------------------------------
 | 32-bit (single-precision) floating-point operations.
@@ -225,6 +227,8 @@ bool f32_isSignalingNaN( float32_t );
 uint_fast16_t f32_classify( float32_t );
 float32_t f32_rsqrte7( float32_t );
 float32_t f32_recip7( float32_t );
+float32_t f32_sinpe( float32_t Token, float32_t pos, float32_t d_model, uint64_t i );
+float32_t f32_rope( float32_t token, float32_t m, uint64_t i, uint64_t n_dim, int is_even );
 
 /*----------------------------------------------------------------------------
 | 64-bit (double-precision) floating-point operations.
@@ -265,6 +269,8 @@ bool f64_isSignalingNaN( float64_t );
 uint_fast16_t f64_classify( float64_t );
 float64_t f64_rsqrte7( float64_t );
 float64_t f64_recip7( float64_t );
+float64_t f64_sinpe( float64_t Token, float64_t pos, float64_t d_model, uint64_t i );
+float64_t f64_rope( float64_t token, float64_t m, uint64_t i, uint64_t n_dim, int is_even);
 
 /*----------------------------------------------------------------------------
 | Rounding precision for 80-bit extended double-precision floating-point.

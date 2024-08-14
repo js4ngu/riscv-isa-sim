@@ -67,4 +67,3 @@ float32_t f32_add( float32_t a, float32_t b )
 #endif
 
 }
-
