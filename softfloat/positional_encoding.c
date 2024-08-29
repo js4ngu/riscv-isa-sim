@@ -40,6 +40,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "platform.h"
 #include "internals.h"
 #include "softfloat.h"
+//#define DEBUG
 
 union ui32t_float {
     uint32_t ui;
@@ -81,6 +82,16 @@ float64_t double_to_float64(double a) {
     result.v = converter.ui;  // Extract the uint32_t representation
 
     return result;
+}
+
+float* sincosLUT(float theta) {
+    static float result[2];  // Static array to hold the results
+    result[0] = sinf(theta); // Store sine in the first element
+
+    //cosf 가 cos값 가져오는 테이블 동작이라 가정
+    //result[0] = cosf(theta + (M_PI/2)); // Store sine in the first element
+    result[1] = cosf(theta); // Store cosine in the second element
+    return result;           // Return the array
 }
 
 float16_t f16_sinpe( float16_t Token, float16_t pos, float16_t d_model, uint64_t i ) {
@@ -125,21 +136,22 @@ float16_t f16_rope( float16_t token, float16_t m, uint64_t i, uint64_t n_dim, in
     f16_add(token,m);
 }
 
-float32_t f32_rope( float32_t token, float32_t m, uint64_t i, uint64_t n_dim, int is_even) {
-    int pair_index = i / 2;
-    float token_float = float32_to_float(token);
-    float theta_i = (2 * M_PI * (pair_index + 1)) / n_dim;
-    float m_theta_i = float32_to_float(m) * theta_i;
+float32_t f32_rope( float32_t x_1, float32_t x_2, float32_t *y_1, float32_t *y_2, float32_t theta, uint64_t m, uint64_t i, uint64_t base_index) {
+    float fx_1 = float32_to_float(x_1);
+    float fx_2 = float32_to_float(x_2);
+    float ftheta = float32_to_float(theta);
 
-    float cos_m_theta_i = cos(m_theta_i);
-    float sin_m_theta_i = sin(m_theta_i);
-    if (is_even == 1) {
-        // For even index (real part)
-        f32_sub(float_to_float32(token_float * cos_m_theta_i), float_to_float32(sin_m_theta_i));
-    } else {
-        // For odd index (imaginary part)
-        f32_add(float_to_float32(token_float * cos_m_theta_i), float_to_float32(sin_m_theta_i));
-    }
+    i = (i / 2) + 1 + base_index;
+    int   iM = (int)m;
+    float theta_i = ftheta * i;
+    float m_theta_i = m * theta_i;
+
+    float* sincos = sincosLUT(m_theta_i);
+    float cos_m_theta_i = sincos[1];
+    float sin_m_theta_i = sincos[0];
+
+    *y_1 = float_to_float32(fx_1 * cos_m_theta_i - fx_2 * sin_m_theta_i);
+    *y_2 = float_to_float32(fx_2 * cos_m_theta_i + fx_1 * sin_m_theta_i);
 }
 
 float64_t f64_rope( float64_t token, float64_t m, uint64_t i, uint64_t n_dim, int is_even) {

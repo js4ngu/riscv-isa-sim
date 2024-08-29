@@ -228,7 +228,7 @@ uint_fast16_t f32_classify( float32_t );
 float32_t f32_rsqrte7( float32_t );
 float32_t f32_recip7( float32_t );
 float32_t f32_sinpe( float32_t Token, float32_t pos, float32_t d_model, uint64_t i );
-float32_t f32_rope( float32_t token, float32_t m, uint64_t i, uint64_t n_dim, int is_even );
+float32_t f32_rope( float32_t x_1, float32_t x_2, float32_t *y_1, float32_t *y_2, float32_t theta, uint64_t m, uint64_t i, uint64_t base_index);
 
 /*----------------------------------------------------------------------------
 | 64-bit (double-precision) floating-point operations.
