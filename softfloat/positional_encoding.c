@@ -87,7 +87,7 @@ float64_t double_to_float64(double a) {
 float* sincosLUT(float theta) {
     static float result[2];  // Static array to hold the results
     result[0] = sinf(theta); // Store sine in the first element
-
+    // theta 에 Pi 곱하기
     //cosf 가 cos값 가져오는 테이블 동작이라 가정
     //result[0] = cosf(theta + (M_PI/2)); // Store sine in the first element
     result[1] = cosf(theta); // Store cosine in the second element
@@ -143,7 +143,8 @@ float32_t f32_rope( float32_t x_1, float32_t x_2, float32_t *y_1, float32_t *y_2
 
     i = (i / 2) + 1 + base_index;
     int   iM = (int)m;
-    float theta_i = ftheta * i;
+    //float theta_i = ftheta * i;
+    float theta_i = ftheta * i * M_PI;  // 여기서 PI를 곱함
     float m_theta_i = m * theta_i;
 
     float* sincos = sincosLUT(m_theta_i);
