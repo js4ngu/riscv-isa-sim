@@ -682,7 +682,7 @@ static void NOINLINE add_vector_vf_insn(disassembler_t* d, const char* name, uin
   d->add_insn(new disasm_insn_t(name, match, mask, {&vd, &vs2, &frs1, opt, &vm}));
 }
 
-static void NOINLINE add_vector_vfx_insn(disassembler_t* d, const char* name, uint32_t match, uint32_t mask)
+static void NOINLINE add_vector_fvx_insn(disassembler_t* d, const char* name, uint32_t match, uint32_t mask)
 {
   d->add_insn(new disasm_insn_t(name, match, mask, {&vd, &vs2, &xrs1, opt, &vm}));
 }
@@ -1527,7 +1527,7 @@ void disassembler_t::add_instructions(const isa_parser_t* isa)
     #define DEFINE_VECTOR_VV(code) add_vector_vv_insn(this, #code, match_##code, mask_##code)
     #define DEFINE_VECTOR_VX(code) add_vector_vx_insn(this, #code, match_##code, mask_##code)
     #define DEFINE_VECTOR_VF(code) add_vector_vf_insn(this, #code, match_##code, mask_##code)
-    #define DEFINE_VECTOR_FVX(code) add_vector_vfx_insn(this, #code, match_##code, mask_##code)
+    #define DEFINE_VECTOR_FVX(code) add_vector_fvx_insn(this,"vfrope.fvx", MATCH_VFROPE_FVX, MASK_VFROPE_FVX)
     #define DEFINE_VECTOR_VI(code) add_vector_vi_insn(this, #code, match_##code, mask_##code)
     #define DEFINE_VECTOR_VIU(code) add_vector_viu_insn(this, #code, match_##code, mask_##code)
 

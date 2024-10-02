@@ -143,13 +143,15 @@ float32_t f32_rope( float32_t x_1, float32_t x_2, float32_t *y_1, float32_t *y_2
 
     i = (i / 2) + 1 + base_index;
     int   iM = (int)m;
-    //float theta_i = ftheta * i;
+
     float theta_i = ftheta * i * M_PI;  // 여기서 PI를 곱함
     float m_theta_i = m * theta_i;
 
     float* sincos = sincosLUT(m_theta_i);
     float cos_m_theta_i = sincos[1];
     float sin_m_theta_i = sincos[0];
+    //printf("x1, x2, m, theta, i : %f, %f, %llu, %f, %llu\n", fx_1, fx_1, m, ftheta, i);
+    //printf("m_theta_i, cos, sin : %f, %f, %f \n", m_theta_i, cos_m_theta_i, sin_m_theta_i);
 
     *y_1 = float_to_float32(fx_1 * cos_m_theta_i - fx_2 * sin_m_theta_i);
     *y_2 = float_to_float32(fx_2 * cos_m_theta_i + fx_1 * sin_m_theta_i);
