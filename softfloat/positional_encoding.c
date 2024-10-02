@@ -87,7 +87,7 @@ float64_t double_to_float64(double a) {
 float* sincosLUT(float theta) {
     static float result[2];  // Static array to hold the results
     result[0] = sinf(theta); // Store sine in the first element
-    // theta 에 Pi 곱하기
+
     //cosf 가 cos값 가져오는 테이블 동작이라 가정
     //result[0] = cosf(theta + (M_PI/2)); // Store sine in the first element
     result[1] = cosf(theta); // Store cosine in the second element
@@ -133,7 +133,7 @@ float64_t f64_sinpe( float64_t Token, float64_t pos, float64_t d_model, uint64_t
 }
 
 float16_t f16_rope( float16_t token, float16_t m, uint64_t i, uint64_t n_dim, int is_even) {
-    f16_add(token,m);
+    f16_add(token, m);
 }
 
 float32_t f32_rope( float32_t x_1, float32_t x_2, float32_t *y_1, float32_t *y_2, float32_t theta, uint64_t m, uint64_t i, uint64_t base_index) {
@@ -154,6 +154,7 @@ float32_t f32_rope( float32_t x_1, float32_t x_2, float32_t *y_1, float32_t *y_2
     *y_1 = float_to_float32(fx_1 * cos_m_theta_i - fx_2 * sin_m_theta_i);
     *y_2 = float_to_float32(fx_2 * cos_m_theta_i + fx_1 * sin_m_theta_i);
 }
+
 
 float64_t f64_rope( float64_t token, float64_t m, uint64_t i, uint64_t n_dim, int is_even) {
     f64_add(token,m);

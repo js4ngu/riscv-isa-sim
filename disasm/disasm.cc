@@ -682,6 +682,12 @@ static void NOINLINE add_vector_vf_insn(disassembler_t* d, const char* name, uin
   d->add_insn(new disasm_insn_t(name, match, mask, {&vd, &vs2, &frs1, opt, &vm}));
 }
 
+static void NOINLINE add_vector_vfx_insn(disassembler_t* d, const char* name, uint32_t match, uint32_t mask)
+{
+  d->add_insn(new disasm_insn_t(name, match, mask, {&vd, &vs2, &xrs1, opt, &vm}));
+}
+
+
 static void NOINLINE add_vector_vi_insn(disassembler_t* d, const char* name, uint32_t match, uint32_t mask)
 {
   d->add_insn(new disasm_insn_t(name, match, mask, {&vd, &vs2, &v_simm5, opt, &vm}));
@@ -1521,6 +1527,7 @@ void disassembler_t::add_instructions(const isa_parser_t* isa)
     #define DEFINE_VECTOR_VV(code) add_vector_vv_insn(this, #code, match_##code, mask_##code)
     #define DEFINE_VECTOR_VX(code) add_vector_vx_insn(this, #code, match_##code, mask_##code)
     #define DEFINE_VECTOR_VF(code) add_vector_vf_insn(this, #code, match_##code, mask_##code)
+    #define DEFINE_VECTOR_FVX(code) add_vector_vfx_insn(this, #code, match_##code, mask_##code)
     #define DEFINE_VECTOR_VI(code) add_vector_vi_insn(this, #code, match_##code, mask_##code)
     #define DEFINE_VECTOR_VIU(code) add_vector_viu_insn(this, #code, match_##code, mask_##code)
 
@@ -1749,8 +1756,9 @@ void disassembler_t::add_instructions(const isa_parser_t* isa)
     #define DISASM_OPIV_S__INSN(name) \
       DEFINE_VECTOR_VV(name##_vs)
 
-    #define DISASM_OPIV__F_INSN(name) \
-      DEFINE_VECTOR_VF(name##_vf)
+    #define DISASM_OPIVFVS_INSN(name) \
+      DEFINE_VECTOR_VF(name##_vf); \
+      DEFINE_VECTOR_FVX(name##_fvx)
 
     #define DISASM_VFUNARY0_INSN(name, suf) \
       DEFINE_VECTOR_V(name##cvt_rtz_xu_f_##suf); \
@@ -1764,7 +1772,7 @@ void disassembler_t::add_instructions(const isa_parser_t* isa)
     //0b00_0000
     DISASM_OPIV_VF_INSN(vfadd);
     DISASM_OPIV_V__INSN(vfsinpe);
-    DISASM_OPIV__F_INSN(vfrope);
+    DISASM_OPIVFVS_INSN(vfrope);
     DISASM_OPIV_S__INSN(vfredusum);
     DISASM_OPIV_VF_INSN(vfsub);
     DISASM_OPIV_S__INSN(vfredosum);
