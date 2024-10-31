@@ -41,6 +41,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "internals.h"
 #include "softfloat.h"
 //#define DEBUG
+#define RES 4096
 
 union ui32t_float {
     uint32_t ui;
@@ -156,6 +157,28 @@ float32_t f32_rope( float32_t x_1, float32_t x_2, float32_t *y_1, float32_t *y_2
     *y_1 = float_to_float32(fx_1 * cos_m_theta_i - fx_2 * sin_m_theta_i);
     *y_2 = float_to_float32(fx_2 * cos_m_theta_i + fx_1 * sin_m_theta_i);
 }
+
+float32_t f32_ropeV2( float32_t x_1, float32_t x_2, float32_t *y_1, float32_t *y_2, uint64_t resMode, uint64_t m, uint64_t i, uint64_t base_index) {
+    float fx_1 = float32_to_float(x_1);
+    float fx_2 = float32_to_float(x_2);
+
+    i = (i / 2) + 1 + base_index;
+    int   iM = (int)m;
+
+    double theta_i = ((double)m * resMode * i * M_PI);
+    float m_theta_i = (float)(theta_i * (2.0/RES));
+
+    float* sincos = sincosLUT(m_theta_i);
+    float cos_m_theta_i = sincos[1];
+    float sin_m_theta_i = sincos[0];
+
+    //printf("x1, x2, m, resMode, i : %f, %f, %llu, %llu, %llu\n", fx_1, fx_1, m, resMode, i);
+    //printf("m_theta_i, cos, sin : %f, %f, %f \n\n", m_theta_i, cos_m_theta_i, sin_m_theta_i);
+
+    *y_1 = float_to_float32(fx_1 * cos_m_theta_i - fx_2 * sin_m_theta_i);
+    *y_2 = float_to_float32(fx_2 * cos_m_theta_i + fx_1 * sin_m_theta_i);
+}
+
 
 
 float64_t f64_rope( float64_t token, float64_t m, uint64_t i, uint64_t n_dim, int is_even) {
